@@ -1,0 +1,61 @@
+<h2>Twiity</h2>
+<mat-toolbar color="primary">   
+
+  </mat-toolbar>
+
+    <div *ngIf="openform" class="example-container">
+        <form  [formGroup]="contactForm" class="example-container" (ngSubmit)="onSubmit()">
+          <mat-form-field>
+            <input name ="consumer_key" matInput placeholder="consumer_key" formControlName = "consumer_key">
+          </mat-form-field>
+          <mat-form-field>
+              <input name= "consumer_secret" matInput placeholder="consumer_secret" formControlName = "consumer_secret">
+          </mat-form-field>
+        
+          <mat-form-field>
+              <input name="access_token_key" matInput placeholder="access_token_key" formControlName = "access_token_key">
+          </mat-form-field>
+          <mat-form-field>
+              <input name = "access_token_secret" matInput placeholder="access_token_secret" formControlName = "access_token_secret">
+          </mat-form-field>
+          <mat-form-field>
+              <input name="user_name" matInput placeholder="user_name" formControlName = "user_name" >
+          </mat-form-field>
+          <button mat-button type = "submit">Authenticate</button>
+          <!-- <input type = "submit" value = "Authenticate"> -->
+          
+        </form>
+      </div> 
+      
+      <div *ngIf="!openform" class="example-container">
+
+        <form [formGroup]="nextData" class="example-container" (ngSubmit)="onDisplay()">
+         
+          <label id="example-radio-group-label">Grab the tweets</label>
+          <mat-radio-group
+            aria-labelledby="example-radio-group-label"
+            class="example-radio-group"
+            [(ngModel)]="favoriteSeason" formControlName = "tweet_type">
+            <mat-radio-button class="example-radio-button" *ngFor="let season of seasons" [value]="season">
+              {{season}}
+            </mat-radio-button>
+            
+          </mat-radio-group>
+          <br>
+          <mat-checkbox formControlName = "download">Download</mat-checkbox>
+          <br>
+          <mat-label>tweet range</mat-label>
+          <mat-slider min="1" max="50" step="5" value="10" formControlName = "count">  </mat-slider>
+          <button mat-button type = "submit">GET</button>
+        </form>
+       
+      </div>
+      
+      <div  class ="main-container">
+        <img [src]="mySrc" />
+
+        <!-- <li *ngFor="let article of articles">{{article.text}}</li> -->
+      </div>
+     
+
+

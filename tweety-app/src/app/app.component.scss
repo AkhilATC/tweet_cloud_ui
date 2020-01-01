@@ -1,0 +1,51 @@
+.btn {
+    background-color: DodgerBlue; /* Blue background */
+    border: none; /* Remove borders */
+    color: white; /* White text */
+    padding: 12px 16px; /* Some padding */
+    font-size: 16px; /* Set a font size */
+    cursor: pointer; /* Mouse pointer on hover */
+  }
+  
+  /* Darker background on mouse-over */
+  .btn:hover {
+    background-color: RoyalBlue;
+  }
+  .example-container {
+    width: 285px;
+    height: calc(100vh - 115px);
+    background: rgb(248, 245, 245);
+    float: left;
+  }
+  .main-container{
+    width: calc(100vw - 300px);
+    height: calc(100vh - 115px);
+    background: rgb(178, 155, 214);
+    float: left;
+  }
+
+  .example-container-nav {
+    
+    width: 400px;
+    height: 200px;
+    margin: 10px;
+    border: 1px solid #555;
+  }
+  .example-radio-group {
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0;
+  }
+  
+  .example-radio-button {
+    margin: 5px;
+  }
+  .img-holder{
+
+    width: calc(100vw - 295px);
+    height: calc(100vh - 110px);
+    float: left;
+
+  }
+  
+ 
