@@ -16,6 +16,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class AppComponent {
   title = 'tweety-app';
   public openform = true;
+  public image = false;
   contactForm: FormGroup;
   nextData: FormGroup;
   articles = [];
@@ -42,7 +43,8 @@ export class AppComponent {
     this.nextData = this.formBuilder.group({
       tweet_type: [''],  
       count: [''],
-      download: [''],
+      render: [''],
+      track: ['']
      
     });
 
@@ -64,11 +66,13 @@ export class AppComponent {
       console.log('Your form data : ', this.nextData.value);
       var data = this.nextData.value;
       var tweet_type = data.tweet_type;
-      var download = data.download;
+      var render = data.render;
       // console.log('Am');
       // console.log(download);
       var values = JSON.stringify(this.nextData.value);
-      if(tweet_type === 'Grab timeline tweets' && !download){
+      
+      if(tweet_type === 'Grab timeline tweets'&& render){
+        this.image = true;
         let result = this.apiService.getDataFromTweets(data)
           .subscribe((binaryData)=>{
             // console.log(data);
@@ -79,18 +83,11 @@ export class AppComponent {
             
                 this.mySrc = this.sanitizer.bypassSecurityTrustUrl('data:image/png;base64,'+binaryData);
               
-               
-        
-            
-            // else{
-            //   let coner = ['<p> ----- </p>']
-            //   this.articles.push(coner);
-            // }
+              
             
           });
         
       }else{
-        console.log("here in download");
         this.apiService.downloadFile(data).subscribe((binaryData) => {
 
           console.log(binaryData);
@@ -106,7 +103,26 @@ export class AppComponent {
             document.body.removeChild(link)
           }
         })
-        
+
+      }    
+      
+      if(tweet_type == "Get Complete strem" && render){
+        console.log("Get Complete strem");
+        console.log(data);
+        let result = this.apiService.getSteamdata(data)
+          .subscribe((binaryData)=>{
+            // console.log(data);
+            this.open=true;
+            console.log(binaryData);
+            console.log(typeof binaryData)
+            
+                this.mySrc = this.sanitizer.bypassSecurityTrustUrl('data:image/png;base64,'+binaryData);
+              
+              
+            
+          });
+      }else{
+        console.log('download')
       }
       
       

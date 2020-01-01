@@ -22,15 +22,16 @@ export class ApiService {
       // Begin assigning parameters
       console.log('cool')
        params = params.append('count', configdata.count);
+       params = params.append('render', configdata.render);
       //  params = params.append('download', configdata.download);
-      return this.httpClient.get(`${this.apiURL}get_home_timeline_tweets`,{ params: params,'responseType':'text'});
+      return this.httpClient.get(`${this.apiURL}export_home_timeline_tweets`,{ params: params,'responseType':'text'});
     };
     public downloadFile(configdata:any) {
       let params = new HttpParams();
       // // Begin assigning parameters
       // console.log("calling")
       params = params.append('count', configdata.count);
-      params = params.append('download', configdata.download);
+      params = params.append('render', configdata.render);
     //   // var HTTPOptions = {
     //     headers: new HttpHeaders({
     //        'Accept':'application/vnd.ms-excel;'
@@ -38,9 +39,22 @@ export class ApiService {
     //     'responseType': 'blob'
     //  }
    
-       let response = this.httpClient.get(`${this.apiURL}get_home_timeline_tweets`,{params:params,'responseType': 'blob'})
+       let response = this.httpClient.get(`${this.apiURL}export_home_timeline_tweets`,{params:params,'responseType': 'blob'})
        return response;
-    }
+    };
+
+    public getSteamdata(configdata:any){
+      let params = new HttpParams();
+      console.log("get Steam data")
+      params = params.append('count', configdata.count);
+      params = params.append('render', configdata.render);
+      var obj = {'track': configdata.track}
+      let response = this.httpClient.post(`${this.apiURL}streamming_tweets`,
+      configdata,
+      {params:params,'responseType':'text'})
+      return response;
+
+    };
     
 
 }
