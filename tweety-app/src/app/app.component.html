@@ -1,6 +1,6 @@
 <h2>Twiity</h2>
 <mat-toolbar color="primary">   
-
+  <p>{{myHead}}</p>
   </mat-toolbar>
 
     <div *ngIf="openform" class="example-container">
@@ -46,6 +46,17 @@
                   <input matInput placeholder="Type keywords" formControlName ="track">
                 </label>
           </div>
+
+          <div *ngIf="favoriteSeason === 'Search'"> 
+              <label>
+                Track:
+                <input matInput placeholder="Type keywords" formControlName ="track">
+              </label>
+              <label>
+                  location:
+                  <input matInput placeholder="Enter range limit" formControlName ="geocode">
+                </label>
+        </div>
             
           </mat-radio-group>
           <br>

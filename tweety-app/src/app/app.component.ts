@@ -22,6 +22,7 @@ export class AppComponent {
   articles = [];
   open = false;
   public mySrc:any;
+  public myHead='';
 
   favoriteSeason: string;
   seasons: string[] = ['Grab timeline tweets','Get Complete strem','Search'];
@@ -44,7 +45,8 @@ export class AppComponent {
       tweet_type: [''],  
       count: [''],
       render: [''],
-      track: ['']
+      track: [''],
+      geocode:['']
      
     });
 
@@ -58,7 +60,14 @@ export class AppComponent {
           .subscribe((data)=>{
             console.log(data);
             
-          });
+            this.myHead = "Hello 🤗 "+data['name'];
+
+            
+          },error  => {
+            this.myHead = "OOPs 😞 " + "Invalid payload format";
+            this.openform = true;
+            
+            });
         
     };
     
@@ -68,26 +77,31 @@ export class AppComponent {
       var tweet_type = data.tweet_type;
       var render = data.render;
       // console.log('Am');
+      this.myHead = "🏃‍♂️ your request is processing..";
       // console.log(download);
       var values = JSON.stringify(this.nextData.value);
+      this.open=true;
       
       if(tweet_type === 'Grab timeline tweets'&& render){
-        this.image = true;
+        
         let result = this.apiService.getDataFromTweets(data)
           .subscribe((binaryData)=>{
             // console.log(data);
-            this.open=true;
+            this.image = true; 
           //  / console.log(JSON.stringify(binaryData));
             console.log(binaryData);
             console.log(typeof binaryData)
             
                 this.mySrc = this.sanitizer.bypassSecurityTrustUrl('data:image/png;base64,'+binaryData);
+                this.myHead ='🤩 Process completed!'
               
               
             
-          });
+          },error  => {
+            this.myHead = "😬 its seems to be error!";
+            });
         
-      }else{
+      }else if(tweet_type === 'Grab timeline tweets'&& !render){
         this.apiService.downloadFile(data).subscribe((binaryData) => {
 
           console.log(binaryData);
@@ -102,27 +116,90 @@ export class AppComponent {
             link.click();
             document.body.removeChild(link)
           }
-        })
+          this.myHead ='🤩 Process completed!'
+        },error  => {
+          this.myHead = "😬 its seems to be error!";
+          })  
 
-      }    
-      
+      } ;   
       if(tweet_type == "Get Complete strem" && render){
         console.log("Get Complete strem");
         console.log(data);
         let result = this.apiService.getSteamdata(data)
           .subscribe((binaryData)=>{
             // console.log(data);
-            this.open=true;
+            this.image=true;
             console.log(binaryData);
             console.log(typeof binaryData)
-            
+
                 this.mySrc = this.sanitizer.bypassSecurityTrustUrl('data:image/png;base64,'+binaryData);
+                this.myHead ='🤩 Process completed!'
               
               
             
-          });
-      }else{
-        console.log('download')
+          },error  => {
+            this.myHead = "😬 its seems to be error!";
+            });
+      }else if(tweet_type == "Get Complete strem" && !render){
+        console.log('Get Complete strem download')
+        this.apiService.SteamdatadownloadFile(data).subscribe((binaryData) => {
+
+          console.log(binaryData);
+          let file = new Blob([binaryData], { type: 'application/vnd.ms-excel;charset=utf-8;' });
+          let downloandUrl = window.URL.createObjectURL(file)
+          var link = document.createElement("a")
+          if(link.download !== undefined) {
+            link.setAttribute('href', downloandUrl);
+            link.setAttribute('download', 'Report.xlsx');
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link)
+          }
+          this.myHead ='🤩 Process completed!';
+        },error  => {
+          this.myHead = "😬 its seems to be error!";
+          })
+      };
+      if(tweet_type == "Search" && render){
+
+        console.log("Get Complete strem");
+        console.log(data);
+        this.image =true;
+        let result = this.apiService.getSearchdata(data)
+          .subscribe((binaryData)=>{
+            // console.log(data);
+            this.open=true;
+            console.log(binaryData);
+            console.log(typeof binaryData)  
+            this.mySrc = this.sanitizer.bypassSecurityTrustUrl('data:image/png;base64,'+binaryData);
+            this.myHead ='🤩 Process completed!';
+          },error  => {
+            this.myHead = "😬 its seems to be error!";
+            });
+      }else if(tweet_type == "Search" && !render){
+
+        console.log('Get Searchdownload')
+        this.apiService.getSearchdatadownloadFile(data).subscribe((binaryData) => {
+
+          console.log(binaryData);
+          let file = new Blob([binaryData], { type: 'application/vnd.ms-excel;charset=utf-8;' });
+          let downloandUrl = window.URL.createObjectURL(file)
+          var link = document.createElement("a")
+          if(link.download !== undefined) {
+            link.setAttribute('href', downloandUrl);
+            link.setAttribute('download', 'Report.xlsx');
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link)
+          }
+          this.myHead ='🤩 Process completed!';
+        },error  => {
+          this.myHead = "😬 its seems to be error!";
+          })
+
+
       }
       
       

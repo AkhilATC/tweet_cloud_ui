@@ -51,9 +51,41 @@ export class ApiService {
       var obj = {'track': configdata.track}
       let response = this.httpClient.post(`${this.apiURL}streamming_tweets`,
       configdata,
-      {params:params,'responseType':'text'})
+      {params:params,'responseType':'text'  })
       return response;
 
+    };
+    public SteamdatadownloadFile(configdata:any) {
+      let params = new HttpParams();
+      // // Begin assigning parameters
+      console.log("calling SteamdatadownloadFile")
+      params = params.append('count', configdata.count);
+      params = params.append('render', configdata.render);
+       let response = this.httpClient.post(`${this.apiURL}streamming_tweets`,configdata,
+       {params:params,'responseType': 'blob'})
+       return response;
+    };
+    public getSearchdata(configdata:any){
+      let params = new HttpParams();
+      console.log("get Steam data")
+      params = params.append('count', configdata.count);
+      params = params.append('render', configdata.render);
+      let response = this.httpClient.post(`${this.apiURL}search_tweets`,
+      configdata,
+      {params:params,'responseType':'text'  })
+      return response;
+
+    };
+
+    public getSearchdatadownloadFile(configdata:any) {
+      let params = new HttpParams();
+      // // Begin assigning parameters
+      console.log("calling SteamdatadownloadFile")
+      params = params.append('count', configdata.count);
+      params = params.append('render', configdata.render);
+       let response = this.httpClient.post(`${this.apiURL}search_tweets`,configdata,
+       {params:params,'responseType': 'blob'})
+       return response;
     };
     
 
